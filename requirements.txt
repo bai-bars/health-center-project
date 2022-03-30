@@ -1,0 +1,8 @@
+asgiref==3.5.0
+Django==4.0.3
+Pillow==9.0.1
+PyPDF2==1.26.0
+python-barcode==0.13.1
+reportlab==3.6.8
+sqlparse==0.4.2
+tzdata==2021.5

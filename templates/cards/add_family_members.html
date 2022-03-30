@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}ADD FAMILY MEMBERS{% endblock title %}
+
+{% block content %}
+<div class="container-fluid" style="background: url('/static/images/jake-blucker.jpg');">
+    <h1 class="text-white text-center">
+        <strong>#Add_Family_Members</strong>
+    </h1>
+
+    <!-- FAMILY MEMBERS -->
+    <div class="container">
+        <div class="row">
+            <label  for="member1" class="form-label text-white">Family Members:</label>
+            <div class="col-md-6 col-lg-6 col-sm-8 mb-3">
+              <input type="text" class="form-control" name='member1' id="member1" placeholder="Family Members">
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-4 mb-3">
+              <a style="text-decoration: none;">
+                <img id="add-div-button"  width="30px" src="{% static "icons/plus-circle.svg" %}" alt="add-div"/>
+              </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAMILY MEMBERS END -->
+    
+</div>
+{% endblock content %}
