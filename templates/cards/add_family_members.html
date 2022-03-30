@@ -4,27 +4,78 @@
 {% block title %}ADD FAMILY MEMBERS{% endblock title %}
 
 {% block content %}
-<div class="container-fluid" style="background: url('/static/images/jake-blucker.jpg');">
+<div class="container-fluid" style="background: url('/static/images/jake-blucker.jpg'); background-size: cover; min-height: 600px;">
     <h1 class="text-white text-center">
         <strong>#Add_Family_Members</strong>
     </h1>
 
     <!-- FAMILY MEMBERS -->
     <div class="container">
-        <div class="row">
-            <label  for="member1" class="form-label text-white">Family Members:</label>
-            <div class="col-md-6 col-lg-6 col-sm-8 mb-3">
-              <input type="text" class="form-control" name='member1' id="member1" placeholder="Family Members">
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-4 mb-3">
-              <a style="text-decoration: none;">
-                <img id="add-div-button"  width="30px" src="{% static "icons/plus-circle.svg" %}" alt="add-div"/>
-              </a>
-            </div>
-        </div>
+
+      <!-- INPUT FAMILY MEMEBERS DIV -->
+      <form method="post">
+        {% csrf_token %}
+        <div id="family-members"></div>
+      </form>
+      <!-- INPUT FAMILY MEMEBERS DIV END -->
+
+      <!-- ADD NEW MEMBER BUTTON -->
+      <div class="mb-3">
+        <a style="text-decoration: none;">
+          <span class="text-white "><strong>ADD NEW FAMILY MEMBERS</strong></span>
+          <img id="add-new-member-button"  width="20px" src="{% static "icons/plus-circle.svg" %}" alt="add-div"/>
+        </a>
+      </div>
+      <!-- ADD NEW MEMBER BUTTON END -->
+
+      <button type="submit" id="save-members-btn" class="btn btn-light mt-2 mb-3">Save and Create Card</button>
     </div>
     
     <!-- FAMILY MEMBERS END -->
     
 </div>
 {% endblock content %}
+
+{% block js-script %}
+<script>
+
+  // --------------------------  UTILITY FUNCTIONS  --------------------------
+
+  function getMemberList(){
+    let member_inps = $('#family-members').find("input");
+
+    let memberList = [];
+    for(let i of member_inps){
+      if(i.value.length > 0)
+        memberList.push(i.value);
+    }
+      
+
+    return memberList;
+  }
+
+  // ------------------------  UTILITY FUNCTIONS END  ------------------------
+
+
+  // ADD NEW MEMBER INPUT FIELD (ONLY GUI)
+  $('#add-new-member-button').on('click', ()=>{
+      $('#family-members').append(
+        `<div class="row">
+          <div class="col-md-6 col-lg-6 col-sm-8 mb-3">
+          <input type="text" class="form-control" placeholder="Family Member">
+        </div>`
+      );
+  });
+
+
+  // SAVE AND CREATE PDF BUTTON ON SUBMIT
+  $('#add-new-member-button').on('click', ()=>{
+    const csrf = $("input[name=csrfmiddlewaretoken]").val();
+    let data = getMemberList();
+
+  });
+  
+
+
+</script>
+{% endblock js-script %}
