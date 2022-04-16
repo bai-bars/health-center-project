@@ -1,0 +1,214 @@
+  {% load static %}
+  <!-- Modal -->
+  <div class="modal fade" id="edit-card-modal" tabindex="-1" aria-labelledby="edit-card-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-muted" id="edit-card-modal-label">
+            Update Card
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-secondary">
+          <div class="card-body p-4">
+            <form action="{% url 'cards:edit_card' card_person.card_id %}" method="POST">
+              {% csrf_token %}
+            <h4>Information</h4>
+            <hr class="mt-0 mb-4">
+              <input type="hidden" name="card_id" value="{{card_person.card_id}}">
+              <div class="row pt-1">
+                <!-- NAME -->
+                <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+                  <label for="name" class="d-flex align-items-start form-label">Name:</label>
+                  <input type="text" class="form-control" 
+                        name="name" id="name" placeholder="Name" 
+                        value="{{card_person.name}}">
+                </div>
+                <!-- NAME END -->
+        
+                <!-- ADDRESS -->
+                <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+                  <label for="address" class="d-flex align-items-start form-label">Address:</label>
+                  <input type="text" class="form-control"
+                        name="address" id="address" placeholder="Current Address"
+                        value="{{card_person.address}}">
+                </div>
+                <!-- ADDRESS END -->
+              </div>
+
+              <div class="row pt-1">
+
+                <!-- AGE -->
+                <div class="col-md-4 col-lg-4 col-sm-6 mb-3">
+                  <label for="age" class="d-flex align-items-start form-label form-label">Age:</label>
+                  <input type="number" class="form-control"
+                        name="age" id="age"
+                        value="{{card_person.age}}">
+                </div>
+                <!-- AGE END -->
+
+                <!-- CONTACT NO -->
+                <div class="col-md-4 col-lg-4 col-sm-6 mb-3">
+                  <label for="contact_no" class="d-flex align-items-start form-label form-label">Contact No:</label>
+                  <input type="text" class="form-control"
+                        name="contact_no" id="contact_no" placeholder="Contact No."
+                        value="{{card_person.contact_no}}">
+                </div>
+                <!-- CONTACT NO END -->
+
+                <!-- GENDER -->
+                <div class="col-md-4 col-lg-4 col-sm-12 mb-3">
+                  <label for="gender" class="d-flex align-items-start form-label form-label">Gender:</label>
+                  <select class="form-select text-secondary" name="gender" id="gender" required>
+                    <option value="">Gender:</option>     
+                    <option value="M" 
+                            {% if card_person.gender == 'M' %}
+                              selected
+                            {% endif %}>
+                            Male
+                    </option>
+                    <option value="F"
+                            {% if card_person.gender == 'F' %}
+                              selected
+                            {% endif %}>
+                            Female
+                    </option>
+                  </select>  
+                </div>
+                <!-- GENDER END -->
+
+                <!-- CARD CATEGORY -->
+                <div class="col-md-4 col-lg-4 col-sm-12 mb-3">
+                  <label for="category" class="d-flex align-items-start form-label form-label">Card Category:</label>
+                  <select class="form-select text-secondary" name="category" id="category" >
+                      
+                    <option value="">Select Card Category:</option>
+                      <option value="P"
+                              {% if card_person.category.category == "P" %}
+                                selected
+                              {% endif %}>
+                              Poor
+                      </option>
+                      <option value="NP"
+        
+                              {% if card_person.category.category == "NP" %}
+                                selected
+                              {% endif %}>
+                              Not Poor
+                      </option>
+                  </select>  
+                </div>
+                <!-- CARD CATEGORY END -->
+              </div>
+            <br><br>
+
+            <h4>Guardian</h4>
+            <hr class="mt-0 mb-4"> 
+              <!-- GUARDIAN SECTION -->
+                <div class="row pt-1">
+                  <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+                    <label for="guardian-name" class="d-flex align-items-start form-label form-label">Guardian Name:</label>
+                    <input type="text" class="form-control"
+                          name="guardian-name" id="guardian-name"
+                          placeholder="Guardian Name" value="{{guardian.guardian_name}}">
+                  </div>
+                  <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+                    <label for="guardian-relationship" class="d-flex align-items-start form-label form-label">Guardian Relationship:</label>
+                    <select id="guardian-relationship" class="form-select text-secondary" name="guardian-relationship">
+                      
+                      <option value="FAT" {% if guardian.relationship_with_guardian == "FAT" %}
+                                            selected
+                                          {% endif %}>
+                                          Father
+                      </option>
+                      <option value="MOT" {% if guardian.relationship_with_guardian == "MOT" %}
+                                            selected
+                                          {% endif %}>
+                                          Mother
+                      </option>
+                      <option value="HUS" {% if guardian.relationship_with_guardian == "HUS" %}
+                                            selected
+                                          {% endif %}>
+                                          Husband
+                      </option>
+                      <option value="WIF" {% if guardian.relationship_with_guardian == "WIF" %}
+                                            selected
+                                          {% endif %}>
+                                          Wife
+                      </option>
+                      <option value="BRO" {% if guardian.relationship_with_guardian == "BRO" %}
+                                            selected
+                                          {% endif %}>
+                                          Brother
+                      </option>
+                      <option value="SIS" {% if guardian.relationship_with_guardian == "SIS" %}
+                                            selected
+                                          {% endif %}>
+                                          Sis
+                      </option>
+                      <option value="DAU" {% if guardian.relationship_with_guardian == "DAU" %}
+                                            selected
+                                          {% endif %}>
+                                          Daughter
+                      </option>
+                      <option value="SON" {% if guardian.relationship_with_guardian == "SON" %}
+                                            selected
+                                          {% endif %}>
+                                          Son
+                      </option>
+                      <option value="UNC" {% if guardian.relationship_with_guardian == "UNC" %}
+                                            selected
+                                          {% endif %}>
+                                          Uncle
+                      </option>
+                      </option>
+                      <option value="AUN" {% if guardian.relationship_with_guardian == "AUN" %}
+                                            selected
+                                          {% endif %}>
+                                          Aunt
+                      </option>
+                    </select>                      
+                  </div>
+                </div>
+                <!-- GUARDIAN SECTION END -->
+
+              <br><br>
+              <h5>Family Members</h5>
+              <hr class="mt-0 mb-4">
+              <div class="row pt-1">
+                <!-- FAMILY MEMBERS INPUTS -->
+                <label id='family-members-label' style="display:none;" class="form-label text-white" for="person_photo">Family Members:</label>
+                <div class="row mt-2" id="family-members">
+                  {% for member in family_members %}
+                  <div class="row">
+                    <div class="col-md-8 col-lg-8 col-sm-8 mb-3">
+                      <input name=members[] type="text" class="form-control" placeholder="Family Member"
+                        value="{{member.name}}">
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-sm-2 d-flex mb-3">
+                      <img width="15px" class="btn-del" src="{% static "icons/trash3.svg" %}" alt="delete-div"/>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <!-- FAMILY MEMBERS INPUTS END -->
+
+                <!-- ADD NEW MEMBER BUTTON -->
+                <div class="mt-3 mb-3 text-center">
+                  <a id="add-new-member-button" class='btn btn-danger' style="text-decoration: none;">
+                    <span class="text-white "><strong>ADD FAMILY MEMBERS</strong></span>
+                    <img width="20px" src="{% static "icons/plus-circle.svg" %}" alt="add-div"/>
+                  </a>
+                </div>
+                <!-- ADD NEW MEMBER BUTTON END -->
+              </div>
+              <hr>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

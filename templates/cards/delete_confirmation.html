@@ -1,0 +1,26 @@
+{% extends '../base.html' %}
+{% block title %}Confirm Delete{% endblock title %}
+{% block content %}
+<div class="container">
+    <br> <br>
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <a href="{% url 'cards:card_person_details' card_id  %}" class="btn btn-light"><b>&laquo;Go Back to Card</b></a>
+        </div>
+    </div>
+    <br><br>
+    <div class="row justify-content-center mt-3 mb-5 text-center text-white">
+        <div class="col-md-5 col-sm-12">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="card_id" value={{card_id}}>
+                <h3>Are you sure?</h3>
+                <p class="text-light"><strong>YOU ARE ABOUT TO DELETE THIS CARD, THIS CANNOT BE UNDONE.</strong></p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-danger mt-3">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

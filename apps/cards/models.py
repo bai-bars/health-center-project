@@ -1,5 +1,7 @@
-from django.db import models
 from barcode import Code128
+from django.db import models
+from django.urls import reverse
+
 
 class CardCategory(models.Model):
     CATEGORY_CHOICES = [
@@ -21,20 +23,26 @@ class CardPerson(models.Model):
 
     card_id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=150, blank=True, null=True)
+    address = models.CharField(max_length=150)
     age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     contact_no = models.CharField(max_length=15, blank=True, null=True)
-    person_photo = models.ImageField(upload_to='persons/', default = "default.jpg")
-    barcode_photo = models.ImageField(default = "default.jpg")
+    person_photo = models.ImageField(upload_to='persons/', default = "persons/default.png")
+    barcode_photo = models.ImageField(upload_to='barcodes/',default = "default.jpg")
     card_pdf = models.FileField(upload_to = "cards/" , default = "default.jpg")
-    category = models.ForeignKey(CardCategory, on_delete= models.PROTECT, blank= True, null = True, related_name='persons')
+    category = models.ForeignKey(CardCategory, on_delete= models.PROTECT, related_name='persons')
+    created_at = models.DateTimeField(auto_now_add = True)
+    last_modified_at = models.DateTimeField(auto_now = True)
 
     class Meta:
         verbose_name_plural = "Card Persons"
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("cards:card_person_details", kwargs={"card_id": self.pk})
+    
 
 
 class Guardian(models.Model):

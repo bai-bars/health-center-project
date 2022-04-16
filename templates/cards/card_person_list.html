@@ -1,0 +1,37 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}All Cards{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mb-2 text-white text-center">
+    <strong>#Card_List</strong>
+  </h1>
+  <h3 class="text-white"><strong>#Recent_Created_Cards:</strong></h3><br>
+  
+  {% for card in card_person_list %}
+    <a href="{{card.get_absolute_url}}" class="text-decoration-none">
+      <div class="card mb-2 list-group-item-action">
+        <div class="row m-2 ">
+          <div class="col-md-2 col-lg-1 col-sm-2">
+            <img width="70px" height="70px" class="rounded-circle border border-3" src="{% static 'images/profile.jpg' %}" alt="">
+          </div>
+
+          <div class="col-md-6 col-lg-6 col-sm-6">
+            <div class="h4 ">{{card.name}}</div>
+            <div class="text-muted">
+              @{{card.card_id}}
+            </div>
+          </div>
+
+          <div class="col-md-4 col-lg-5 col-sm-4 text-end mt-3 ">
+          <i class="badge bg-primary text-wrap">Created : {{card.created_at|date:"M d, Y"}}</i>
+          </div>
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+  <br>
+</div>
+{% endblock content %}

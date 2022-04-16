@@ -1,0 +1,149 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}Card Entry{% endblock title %}
+
+{% block content %}
+  <h1 class="text-white text-center">
+      <strong>#Card_Entry</strong>
+  </h1>
+  <div class="row">
+    <!-- FORM GRID  -->
+    <form action="{% url 'cards:card_person_entry' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="col-sm-12 col-md-8 col-lg-8 mb-3">
+        <h3 class="text-white"><strong>#Fill_Up_The_Form:</strong></h3>
+
+        
+        <div class="row">
+          <!-- CARD ID -->
+          <div class="col-md-4 col-lg-4 col-sm-12 mt-3 mb-3">
+            <label for="card_id" class="form-label text-white">Card ID:</label>
+            <input type="text" class="form-control" name="card_id" id="card_id" value="" readonly>
+          </div>
+          <!-- CARD ID END -->
+
+          <!-- CARD CATEGORY -->
+          <div class="col-md-4 col-lg-4 col-sm-12 mt-3 mb-3">
+            <label for="category" class="form-label text-white">Card Category:</label>
+            <select class="form-select text-secondary" name="category" id="category" >
+                <option value="" selected>Select Card Category </option>
+                <option value="P">Poor</option>
+                <option value="NP">Not Poor</option>
+            </select>  
+          </div>
+          <!-- CARD CATEGORY END -->
+
+          <!-- GENDER -->
+          <div class="col-md-4 col-lg-4 col-sm-12 mt-3 mb-3">
+            <label for="gender" class="form-label text-white">Gender:</label>
+            <select class="form-select text-secondary" name="gender" id="gender" required>
+                <option value="" selected>Gender:</option>
+                <option value="M">Male</option><option value="F">Female</option>
+            </select>  
+          </div>
+          <!-- GENDER END -->
+        </div>
+      
+          <div class="row">
+            <!-- NAME -->
+            <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+              <label for="name" class="form-label text-white">Name:</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+            </div>
+            <!-- NAME END -->
+
+            <!-- ADDRESS -->
+            <div class="col mb-3">
+              <label for="address" class="form-label text-white">Address(required):</label>
+              <input type="text" class="form-control" name="address" id="address" placeholder="Current Address" required>
+            </div>
+            <!-- ADDRESS END -->
+          </div>
+
+          <!-- GUARDIAN SECTION -->
+          <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <label for="guardian-name" class="form-label text-white">Guardian Name:</label>
+              <input type="text" class="form-control" name="guardian-name" id="guardian-name" placeholder="Guardian Name">
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <label for="guardian-relationship" class="form-label text-white">Guardian Relationship:</label>
+              <select id="guardian-relationship" class="form-select text-secondary" name="guardian-relationship">
+                <option value="" selected>Select Relation</option><option value="FAT">Father</option>
+                <option value="MOT">Mother</option><option value="HUS">Husband</option>
+                <option value="WIF">Wife</option><option value="BRO">Brother</option>
+                <option value="SIS">Sister</option><option value="SON">Son</option>
+                <option value="DAU">Daughter</option><option value="UNC">Uncle</option>
+                <option value="AUNT">Aunt</option>
+              </select>                      
+            </div>
+            <div class="form-text">*Fill up only if you have guardian in your family.</div>
+          </div>
+          <!-- GUARDIAN SECTION END -->
+
+          <div class="row">
+            <!-- AGE -->
+            <div class="col-md-4 col-lg-4 col-sm-6 mb-3">
+              <label for="age" class="form-label text-white">Age:</label>
+              <input type="number" class="form-control" name="age" id="age">
+            </div>
+            <!-- AGE END -->
+
+            <!-- CONTACT NO -->
+            <div class="col-md-4 col-lg-4 col-sm-6 mb-3">
+              <label for="contact_no" class="form-label text-white">Contact No:</label>
+              <input type="text" class="form-control" name="contact_no" id="contact_no" placeholder="Contact No.">
+            </div>
+            <!-- CONTACT NO END -->
+
+            <!-- PERSON PHOTO -->
+            <div class="col-md-4 col-lg-4 col-sm-12 mb-3">
+              <label class="form-label text-white" for="person_photo">Photo:</label>
+              <input type="file" accept="image/*" class="form-control" name="person_photo" id="person_photo" />
+            </div>
+            <!-- PERSON PHOTO END -->
+
+          </div>
+
+          <!-- FAMILY MEMBERS INPUTS -->
+          <label id='family-members-label' style="display:none;" class="form-label text-white" for="person_photo">Family Members:</label>
+          <div class="row mt-2" id="family-members"></div>
+          <!-- FAMILY MEMBERS INPUTS END -->
+
+          <!-- ADD NEW MEMBER BUTTON -->
+          <div class="mt-3 mb-3 text-center">
+            <a id="add-new-member-button" class='btn btn-success' style="text-decoration: none;">
+              <span class="text-white "><strong>ADD FAMILY MEMBERS</strong></span>
+              <img width="20px" src="{% static "icons/plus-circle.svg" %}" alt="add-div"/>
+            </a>
+          </div>
+          <!-- ADD NEW MEMBER BUTTON END -->
+
+          <button id="save-btn" class="btn btn-primary">SAVE AND CREATE CARD</button>
+    </div>
+  </form>
+</div>
+<!-- FORM GRID END -->
+{% endblock content %}
+
+{% block js-script %}
+<script>
+  // TO GENERATE THE ID
+  window.addEventListener('load', ()=>{
+    document.getElementById('card_id').value = new Date().getTime();
+  });
+
+
+  // ADD NEW MEMBER INPUT FIELD (ONLY GUI)
+  $('#add-new-member-button').on('click', function(){
+      $('#family-members-label').css('display', 'block');
+
+      $('#family-members').append(
+        `<div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+          <input name=members[] type="text" class="form-control" placeholder="Family Member">
+        </div>`
+      );
+  });
+</script>
+{% endblock js-script %}

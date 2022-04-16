@@ -1,3 +1,88 @@
 body{
     font-family: monospace;
-}   
+}
+
+
+.error-msg {
+  width: 50%; 
+  margin: 0 auto;   
+  padding: 19px;
+  margin: 0 auto;
+  font-size: 20px;
+  border-right-color: #dce6dc;
+  border-radius: 31px;
+  background-color: rgba(43, 84, 44, 0.2);
+  border-right-color: #f4f5f4; /* Side Effect Colors */
+  border-left-color: #f4f5f4;
+  border: 1px solid #f4f5f4;
+  border-right-width: 19px;
+  border-left-width: 19px;
+}
+.error-msg {
+  color: #f8fcf8;
+}
+
+li{
+  margin: 10px;
+}
+.con{
+display: inline-flex;
+padding: 5px;
+background-color: #f8f8f8;
+padding-left: 20px;
+width: 300px;
+border-radius: 3%;
+}
+
+.con1{
+width: 80px;
+height: 80px;
+background-color: pink;
+border-radius: 50%;
+text-align: center;
+border: 2px solid lightgreen;
+display: inline-flex;
+}
+
+.con:hover:nth-child(1){
+box-shadow: 10px 10px 10px #f8f8f84d;
+margin-left: -15px;
+}
+
+.userimg{
+width: 100%;
+height: 100%;
+border-radius: 50%;
+}
+
+.innercon{
+width: 10px;
+height: 10px;
+background-color: #008000bf;
+margin-top: 72px;
+margin-top: -20px;
+border-radius: 50%;
+}
+
+.sidebox{
+margin-top: -5px;
+display: inline-block;
+padding-top: 15px;
+width: 250px;
+}
+
+.spanstyle{
+font-size: 18px;
+font-weight: 1;
+text-align: left;
+margin-left: -122px;
+float: right;
+}
+
+.spanstyle2{
+font-size: 15px;
+margin-left: 12px;
+float: left;
+margin-top: 10px;
+color: green;
+}

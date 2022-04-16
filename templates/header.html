@@ -1,23 +1,96 @@
 {% load static %}
-<header class="p-3 border-bottom" style="background-color: #F7F7F7;">
+<header class="p-3 border-bottom" style="background-color: #eeeeee;">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a class="navbar-brand" href="#">
-          <img src={% static 'images/logo.jpg' %} alt="mdo" width="200" height="80" >
+          <img src="{% static 'images/companylogo3.png' %}" alt="mdo" width="310" height="110" >
         </a>
 
+        <!-- NAVIGATIONS -->
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="#" class="nav-link px-4 link-dark">Home</a></li>
-          <li><a href="#" class="nav-link px-4 link-dark">Patient-List</a></li>
-          <li><a href="#" class="nav-link px-4 link-warning"><b>Create Card</b></a></li>
-          <li><a href="#" class="nav-link px-4 link-dark">Services</a></li>
-        </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+          <!-- SERVICES NAVIGATION -->
+          <li>
+            <div class="dropdown">
+              <a class="nav-link px-4 dropdown-toggle disabled
+                {% if request.path|slice:':5' == '/services' %}
+                  link-warning fw-bold
+                {% else %}
+                  link-dark
+                {% endif %}"  
+                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Services
+              </a>
+          
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Card Stats &nbsp;<b>&raquo;</b></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'cards:card_person_entry' %}">Create Card&nbsp;<b>&raquo;</b></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'cards:card_person_list' %}">Card List&nbsp;<b>&raquo;</b></a></li>
+              </ul>
+            </div>
+          </li>
+          <!-- SERVICES NAVIGATION END -->
+
+          <!-- PATIENT NAVIGATION -->
+          <li>
+            <div class="dropdown">
+              <a class="nav-link px-4 dropdown-toggle disabled
+                {% if request.path|slice:':5' == '/patient' %}
+                  link-warning fw-bold
+                {% else %}
+                  link-dark
+                {% endif %}"  
+                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Patient
+              </a>
+          
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Card Stats &nbsp;<b>&raquo;</b></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Create Card&nbsp;<b>&raquo;</b></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Card List&nbsp;<b>&raquo;</b></a></li>
+              </ul>
+            </div>
+          </li>
+          <!-- PATIENT NAVIGATION END -->
+
+
+          <!-- CARD NAVIGATION -->
+          <li>
+            <div class="dropdown">
+              <a class="nav-link px-4 dropdown-toggle
+                {% if request.path|slice:':5' == '/card' %}
+                  link-warning fw-bold
+                {% else %}
+                  link-dark
+                {% endif %}"  
+                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Card
+              </a>
+          
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Card Stats &nbsp;<b>&raquo;</b></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Create Card&nbsp;<b>&raquo;</b></a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'cards:card_person_list' %}">Card List&nbsp;<b>&raquo;</b></a></li>
+              </ul>
+            </div>
+          </li>
+          <!-- CARD NAVIGATION END -->
+
+        </ul>
+        <!-- NAVIGATIONS END -->
+
+        <form action= {% url 'cards:search_card' %} method='GET' class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input name='q' type="text" class="form-control" placeholder="Search Card..." aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
-              <button class="btn btn-dark" type="button">Search</button>
+              <button class="btn btn-dark" type="submit">Search Card</button>
             </div>
           </div>
         </form>

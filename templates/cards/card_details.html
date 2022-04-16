@@ -1,0 +1,145 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block title %}{{card_person.name}} | Details{% endblock title %}
+{% block content %}
+<section class="vh-125">
+    <div class="container py-5 h-125 mb-3">
+      <div class="row d-flex justify-content-center align-items-center h-125">
+        <div class="col-md-10 col-lg-10 col-sm-12 col- mb-4">
+          <div class="card mb-3" style="border-radius: .5rem;">
+            <div class="row g-0">
+              <div class="col-md-4 text-center" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                <a style="letter-spacing: 2px; font-size: 1.3em;" class="mt-4 btn btn-outline-success" href="{{card_person.card_pdf.url}}">Open Card</a>
+                <br>
+                <img
+                  src="{{card_person.person_photo.url}}"
+                  alt="Avatar"
+                  class="img-fluid my-3  rounded-circle"
+                  style="width: 140px;height:150px;"
+                />
+                <br>
+                <h4>{{card_person.name}}</h4>
+                <img
+                  src="{{card_person.barcode_photo.url}}"
+                  alt="Avatar"
+                  class="img-fluid my-3 "
+                  style="width: 240px;height:60px;"
+                />
+                <br>
+                
+                
+                <a href="{% url 'cards:delete_card' card_person.card_id %}" class="text-decoration-none">
+                  <img  width="24px" src="{% static "icons/trash3.svg" %}"/>
+                </a>
+                <a id="edit-card" data-bs-toggle="modal" data-bs-target="#edit-card-modal"class="text-decoration-none">
+                  {% comment %} href="{% url 'cards:edit_card' card_person.card_id %}"  {% endcomment %}
+                  <img  width="24px" src="{% static "icons/pencil-square.svg" %}"/>
+                </a>
+                {% include 'cards/edit_card_modal.html' %}
+              </div>
+              
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h5>Information</h5>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>ID</h6>
+                      <p class="text-muted">{{card_person.card_id}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Status</h6>
+                      <p class="text-muted">{{card_person.category}}</p>
+                    </div>
+                  </div>
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Created Date</h6>
+                      <p class="text-muted"><i>{{card_person.created_at}}</i></p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Last Modified Date</h6>
+                      <p class="text-muted"><i>{{card_person.last_modified_at}}</i></p>
+                    </div>
+                  </div>
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Gender</h6>
+                      <p class="text-muted">{{card_person.gender}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Age</h6>
+                      <p class="text-muted">{{card_person.age}}</p>
+                    </div>
+                  </div>
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Address</h6>
+                      <p class="text-muted">{{card_person.address}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Phone</h6>
+                      <p class="text-muted">{{card_person.contact_no}}</p>
+                    </div>
+                  </div>
+                  <br>
+                  <h5>Guardian</h5>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Guardian Name</h6>
+                      <p class="text-muted">{{guardian.guardian_name}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Relationship</h6>
+                      <p class="text-muted">{{guardian.relationship_with_guardian}}</p>
+                    </div>
+                  </div>
+                  <br>
+                  <h5>Family Members</h5>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Members' Name</h6>
+                      {% for member in family_members %}
+                        <p class="text-muted">&nbsp;{{ forloop.counter }}. {{member.name}}</p>
+                      {% endfor %}
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
+{% block js-script %}
+<script>
+
+  // ADD NEW MEMBER INPUT FIELD (ONLY GUI)
+  $('#add-new-member-button').on('click', function(){
+    $('#family-members-label').css('display', 'block');
+
+    $('#family-members').append(
+      `<div class="row">
+        <div class="col-md-8 col-lg-8 col-sm-8 mb-3">
+          <input name=members[] type="text" class="form-control" placeholder="Family Member">
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-2 d-flex mb-3">
+          <img width="15px" class="btn-del" src="{% static "icons/trash3.svg" %}" alt="delete-div"/>
+        </div>
+      </div`
+    ).hide().fadeIn();
+});
+
+
+  //delete
+  $("#family-members").on("click" , ".btn-del" , function(){
+    $(this).closest(".row").fadeOut();
+});
+</script>
+{% endblock js-script %}

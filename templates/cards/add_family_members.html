@@ -1,10 +1,9 @@
 {% extends '../base.html' %}
 {% load static %}
 
-{% block title %}ADD FAMILY MEMBERS{% endblock title %}
+{% block title %}ADD FAMILY MEMBERS AND CREATE PDF{% endblock title %}
 
 {% block content %}
-<div class="container-fluid" style="background: url('/static/images/jake-blucker.jpg'); background-size: cover; min-height: 600px;">
     <h1 class="text-white text-center">
         <strong>#Add_Family_Members</strong>
     </h1>
@@ -30,10 +29,7 @@
 
       <button type="submit" id="save-members-btn" class="btn btn-light mt-2 mb-3">Save and Create Card</button>
     </div>
-    
     <!-- FAMILY MEMBERS END -->
-    
-</div>
 {% endblock content %}
 
 {% block js-script %}
@@ -69,9 +65,23 @@
 
 
   // SAVE AND CREATE PDF BUTTON ON SUBMIT
-  $('#add-new-member-button').on('click', ()=>{
+  $('#save-members-btn').on('click', ()=>{
     const csrf = $("input[name=csrfmiddlewaretoken]").val();
-    let data = getMemberList();
+    const id = {{card_id}};
+    let memberList = getMemberList();
+    let data = {members : memberList, csrfmiddlewaretoken : csrf}
+
+    console.log(window.location.href);
+    $.ajax({
+      url : window.location.href,
+      method : "POST",
+      data : data,
+      datatype: "json",
+      success: (data, textStatus)=>{
+        window.location.href = `/card/${id}/details`;
+      }
+    });
+
 
   });
   
