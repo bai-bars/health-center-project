@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <a href="{% url 'cards:refresh_card' %}"
+        <button id="refresh-btn" class="btn btn-primary btn-circle">
+            <span id="refresh-span"></span> <b>Refresh Card</b>
+        </button>
+    </a>
+</div>
+{% endblock content %}
+{% block js-script %}
+<script>
+    $('#refresh-btn').on('click', function(){
+        $('#refresh-span').addClass("spinner-border spinner-border-sm");
+    })
+</script>
+{% endblock js-script %}

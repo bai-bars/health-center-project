@@ -1,4 +1,4 @@
-{% extends '../base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 
 {% block title %}Card Entry{% endblock title %}
@@ -120,7 +120,9 @@
           </div>
           <!-- ADD NEW MEMBER BUTTON END -->
 
-          <button id="save-btn" class="btn btn-primary">SAVE AND CREATE CARD</button>
+          <button type="submit" id="save-btn" class="btn btn-secondary">
+            <span id="save-span"></span> Save And Create Card
+          </button>
     </div>
   </form>
 </div>
@@ -129,7 +131,7 @@
 
 {% block js-script %}
 <script>
-  // TO GENERATE THE ID
+  // GENERATE THE ID
   window.addEventListener('load', ()=>{
     document.getElementById('card_id').value = new Date().getTime();
   });
@@ -144,6 +146,11 @@
           <input name=members[] type="text" class="form-control" placeholder="Family Member">
         </div>`
       );
+  });
+
+    //SAVE AND CREATE CARD BUTTON
+    $('#save-btn').on('click', function(){
+      $('#save-span').addClass("spinner-border spinner-border-sm");
   });
 </script>
 {% endblock js-script %}

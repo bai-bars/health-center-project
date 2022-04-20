@@ -1,4 +1,4 @@
-{% extends '../base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 
 {% block title %}{{card_person.name}} | Details{% endblock title %}
@@ -15,7 +15,7 @@
                 <img
                   src="{{card_person.person_photo.url}}"
                   alt="Avatar"
-                  class="img-fluid my-3  rounded-circle"
+                  class="img-fluid my-3  rounded-circle border border-3"
                   style="width: 140px;height:150px;"
                 />
                 <br>
@@ -140,6 +140,11 @@
   //delete
   $("#family-members").on("click" , ".btn-del" , function(){
     $(this).closest(".row").fadeOut();
+});
+
+  //Save Changes Button
+  $('#save-changes-btn').on('click', function(){
+    $('#save-changes-span').addClass("spinner-border spinner-border-sm");
 });
 </script>
 {% endblock js-script %}

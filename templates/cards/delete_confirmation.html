@@ -1,4 +1,4 @@
-{% extends '../base.html' %}
+{% extends 'core/base.html' %}
 {% block title %}Confirm Delete{% endblock title %}
 {% block content %}
 <div class="container">
@@ -17,10 +17,20 @@
                 <h3>Are you sure?</h3>
                 <p class="text-light"><strong>YOU ARE ABOUT TO DELETE THIS CARD, THIS CANNOT BE UNDONE.</strong></p>
                 <div class="d-grid gap-2">
-                    <button class="btn btn-danger mt-3">Delete</button>
+                    <button type="submit" id="dlt-btn" class="btn btn-danger mt-3">
+                        <span id="dlt-span"></span> Delete
+                      </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 {% endblock content %}
+{% block js-script %}
+<script>
+     //SAVE AND CREATE CARD BUTTON
+     $('#dlt-btn').on('click', function(){
+        $('#dlt-span').addClass("spinner-border spinner-border-sm");
+    });
+</script>
+{% endblock js-script %}

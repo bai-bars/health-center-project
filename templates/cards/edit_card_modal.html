@@ -107,14 +107,14 @@
               <!-- GUARDIAN SECTION -->
                 <div class="row pt-1">
                   <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
-                    <label for="guardian-name" class="d-flex align-items-start form-label form-label">Guardian Name:</label>
+                    <label for="guardian_name" class="d-flex align-items-start form-label form-label">Guardian Name:</label>
                     <input type="text" class="form-control"
-                          name="guardian-name" id="guardian-name"
+                          name="guardian_name" id="guardian_name"
                           placeholder="Guardian Name" value="{{guardian.guardian_name}}">
                   </div>
                   <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
-                    <label for="guardian-relationship" class="d-flex align-items-start form-label form-label">Guardian Relationship:</label>
-                    <select id="guardian-relationship" class="form-select text-secondary" name="guardian-relationship">
+                    <label for="relationship_with_guardian" class="d-flex align-items-start form-label form-label">Guardian Relationship:</label>
+                    <select id="relationship_with_guardian" class="form-select text-secondary" name="relationship_with_guardian">
                       
                       <option value="FAT" {% if guardian.relationship_with_guardian == "FAT" %}
                                             selected
@@ -202,9 +202,11 @@
                 </div>
                 <!-- ADD NEW MEMBER BUTTON END -->
               </div>
-              <hr>
-              <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success">Save Changes</button>
+              <hr> <!-- d-flex justify-content-end -->
+              <div class="d-grid gap-2 m-3">
+                <button type="submit" id="save-changes-btn" class="btn btn-success">
+                  <span id="save-changes-span"></span> Save Changes
+                </button>
               </div>
             </form>
           </div>

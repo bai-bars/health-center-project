@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %} | HOSPITAL PROJECT</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="text-monospace">
+    {% include 'core/header.html' %}
+    
+    <div class="container-fluid" style="background: url('/static/images/jake-blucker.jpg'); background-size: cover; min-height: 600px;">
+        {% include 'core/error.html' %}
+        <main>{% block content %}{% endblock content %}</main>
+    </div>
+
+    {% include 'core/footer.html' %}
+
+
+    <script src= "{% static 'js/jquery.min.js' %}"></script>
+    <script src= "{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% block js-script %}{% endblock js-script %}
+</body>
+</html>

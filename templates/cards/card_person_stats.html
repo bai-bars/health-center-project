@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Card Stats{% endblock title %}
+
+{% block content %}
+<div class="container text-white">
+<br>
+<h1 class="text-center mb-5">#Card_Statistics</h1>
+
+<div class="row pt-1">
+  <div class="col-3 mb-3"></div>
+  <div class="col-6 mb-3">
+    <div class="card text-center text-white  mb-3" style="background: gray;">
+        <div class="card-header">
+            <h5 class="card-title">Total Card</h5>
+        </div>
+        <div class="card-body py-5">
+          <h3 class="card-title">{{total}}</h3>
+        </div>
+    </div>
+  </div>
+  <div class="col-3 mb-3"></div>
+</div>
+<br>
+<hr>
+<div class="row pt-1">
+  <div class="col-5 mb-3">
+    <div class="card text-center text-white  mb-3" style="background: rgb(110,110,110);">
+        <div class="card-header">
+            <h5 class="card-title">Total Male Card</h5>
+        </div>
+        <div class="card-body py-5">
+          <h3 class="card-title">{{male}}</h3>
+        </div>
+    </div>
+  </div>
+  <div class="col-2 mb-3"></div>
+  <div class="col-5 mb-3">
+    <div class="card text-center text-white  mb-3" style="background: rgb(80,80,80)">
+        <div class="card-header">
+            <h5 class="card-title">Total Female Card</h5>
+        </div>
+        <div class="card-body py-5">
+          <h3 class="card-title">{{female}}</h3>
+        </div>
+    </div>
+  </div>
+</div>
+<br>
+<hr>
+<div class="row pt-1">
+  <div class="col-4 mb-3">
+    <div class="card text-center text-white  mb-3" style="background: rgb(110,110,110);">
+        <div class="card-header">
+            <h5 class="card-title">Today</h5>
+        </div>
+        <div class="card-body py-5">
+          <h3 class="card-title">{{male}}</h3>
+        </div>
+    </div>
+  </div>
+  <div class="col-4 mb-3">
+    <div class="card text-center text-white  mb-3" style="background: rgb(110,110,110);">
+      <div class="card-header">
+          <h5 class="card-title">This Month</h5>
+      </div>
+      <div class="card-body py-5">
+        <h3 class="card-title">{{male}}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-4 mb-3">
+    <div class="card text-center text-white  mb-3" style="background: rgb(80,80,80)">
+        <div class="card-header">
+            <h5 class="card-title">This Year</h5>
+        </div>
+        <div class="card-body py-5">
+          <h3 class="card-title">{{female}}</h3>
+        </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock content %}
