@@ -2,14 +2,14 @@
 <header class="p-3 border-bottom" style="background-color: #eeeeee;">
     <div class="container-fluid">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a class="navbar-brand" href="{% url 'index' %}">
+        <a class="navbar-brand" href="{% url 'others:index' %}">
           <img src="{% static 'images/companylogo3.png' %}" alt="mdo" width="310" height="110" >
         </a>
 
         <!-- NAVIGATIONS -->
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li>
-            <a href="{% url 'index' %}" class="nav-link px-4
+            <a href="{% url 'others:index' %}" class="nav-link px-4
             {% if request.path|length == 1 %}
             link-warning fw-bold
             {% endif %}
@@ -45,8 +45,8 @@
           <!-- PATIENT NAVIGATION -->
           <li>
             <div class="dropdown">
-              <a class="nav-link px-4 dropdown-toggle disabled
-                {% if request.path|slice:':5' == '/patient' %}
+              <a class="nav-link px-4 dropdown-toggle
+                {% if request.path|slice:':8' == '/patient' %}
                   link-warning fw-bold
                 {% else %}
                   link-dark
@@ -56,7 +56,7 @@
               </a>
           
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Card Stats &nbsp;<b>&raquo;</b></a></li>
+                <li><a class="dropdown-item" href="{% url 'patients:appointment_entry' %}">Patient Entry &nbsp;<b>&raquo;</b></a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Create Card&nbsp;<b>&raquo;</b></a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -106,7 +106,17 @@
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <img src={% static 'images/jake-blucker.jpg' %} alt="mdo" width="32" height="32" class="rounded-circle">
-            <span><b><i>Fahim</b></i></span>
+            <span>
+              <b>
+                <i>
+                  {% if request.user %}
+                    {{request.user}}
+                  {% else %}
+                    Guest
+                  {% endif %}
+                </i>
+              </b>  
+            </span>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="#">Settings</a></li>

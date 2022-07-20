@@ -61,14 +61,14 @@
                   <label for="gender" class="d-flex align-items-start form-label form-label">Gender:</label>
                   <select class="form-select text-secondary" name="gender" id="gender" required>
                     <option value="">Gender:</option>     
-                    <option value="M" 
-                            {% if card_person.gender == 'M' %}
+                    <option value="Male" 
+                            {% if card_person.gender == 'Male' %}
                               selected
                             {% endif %}>
                             Male
                     </option>
-                    <option value="F"
-                            {% if card_person.gender == 'F' %}
+                    <option value="Female"
+                            {% if card_person.gender == 'Female' %}
                               selected
                             {% endif %}>
                             Female
@@ -84,18 +84,36 @@
                       
                     <option value="">Select Card Category:</option>
                       <option value="P"
-                              {% if card_person.category.category == "P" %}
+                              {% if card_person.category.category == "D1" %}
                                 selected
                               {% endif %}>
-                              Poor
+                              Discount 1
                       </option>
-                      <option value="NP"
+                      <option value="D2"
         
-                              {% if card_person.category.category == "NP" %}
+                              {% if card_person.category.category == "D2" %}
                                 selected
                               {% endif %}>
-                              Not Poor
+                              Discount 2
                       </option>
+
+                      <option value="D3"
+        
+                              {% if card_person.category.category == "D3" %}
+                                selected
+                              {% endif %}>
+                              Discount 3
+                      </option>
+
+                      <option value="NC"
+        
+                              {% if card_person.category.category == "NC" %}
+                                selected
+                              {% endif %}>
+                              No Card
+                      </option>
+
+                      
                   </select>  
                 </div>
                 <!-- CARD CATEGORY END -->
@@ -116,53 +134,53 @@
                     <label for="relationship_with_guardian" class="d-flex align-items-start form-label form-label">Guardian Relationship:</label>
                     <select id="relationship_with_guardian" class="form-select text-secondary" name="relationship_with_guardian">
                       
-                      <option value="FAT" {% if guardian.relationship_with_guardian == "FAT" %}
+                      <option value="Father" {% if guardian.relationship_with_guardian == "Father" %}
                                             selected
                                           {% endif %}>
                                           Father
                       </option>
-                      <option value="MOT" {% if guardian.relationship_with_guardian == "MOT" %}
+                      <option value="Mother" {% if guardian.relationship_with_guardian == "Mother" %}
                                             selected
                                           {% endif %}>
                                           Mother
                       </option>
-                      <option value="HUS" {% if guardian.relationship_with_guardian == "HUS" %}
+                      <option value="Husband" {% if guardian.relationship_with_guardian == "Husband" %}
                                             selected
                                           {% endif %}>
                                           Husband
                       </option>
-                      <option value="WIF" {% if guardian.relationship_with_guardian == "WIF" %}
+                      <option value="Wife" {% if guardian.relationship_with_guardian == "Wife" %}
                                             selected
                                           {% endif %}>
                                           Wife
                       </option>
-                      <option value="BRO" {% if guardian.relationship_with_guardian == "BRO" %}
+                      <option value="Brother" {% if guardian.relationship_with_guardian == "Brother" %}
                                             selected
                                           {% endif %}>
                                           Brother
                       </option>
-                      <option value="SIS" {% if guardian.relationship_with_guardian == "SIS" %}
+                      <option value="Sister" {% if guardian.relationship_with_guardian == "Sister" %}
                                             selected
                                           {% endif %}>
                                           Sis
                       </option>
-                      <option value="DAU" {% if guardian.relationship_with_guardian == "DAU" %}
+                      <option value="Daughter" {% if guardian.relationship_with_guardian == "Daughter" %}
                                             selected
                                           {% endif %}>
                                           Daughter
                       </option>
-                      <option value="SON" {% if guardian.relationship_with_guardian == "SON" %}
+                      <option value="Son" {% if guardian.relationship_with_guardian == "Son" %}
                                             selected
                                           {% endif %}>
                                           Son
                       </option>
-                      <option value="UNC" {% if guardian.relationship_with_guardian == "UNC" %}
+                      <option value="Uncle" {% if guardian.relationship_with_guardian == "Uncle" %}
                                             selected
                                           {% endif %}>
                                           Uncle
                       </option>
                       </option>
-                      <option value="AUN" {% if guardian.relationship_with_guardian == "AUN" %}
+                      <option value="Aunt" {% if guardian.relationship_with_guardian == "Aunt" %}
                                             selected
                                           {% endif %}>
                                           Aunt

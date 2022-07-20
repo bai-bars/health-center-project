@@ -4,7 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-hd^nn0ann7u-p6tqxi&5=+px%8-0j-l_)6=i-we-3xx6d)19e='
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -15,6 +15,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.patients',
     'apps.cards',
+    'apps.doctors',
+    'apps.others',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +42,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.others.context_processors.image_upload_option',
+                'apps.cards.context_processors.card_categories',
             ],
         },
     },
@@ -82,3 +86,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

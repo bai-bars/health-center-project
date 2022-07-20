@@ -73,7 +73,7 @@ class CardPDFGenerator:
             self.mycanvas.drawString(80, 300, f'{guardian_type}:')
 
             self.mycanvas.setFont("Helvetica",5)
-            self.mycanvas.drawString(98, 300, guardian_name)
+            self.mycanvas.drawString(103, 300, guardian_name)
         else:
             self.mycanvas.drawString(80, 300, 'Guardian:')
 

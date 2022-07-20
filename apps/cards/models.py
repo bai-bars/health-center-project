@@ -1,13 +1,12 @@
-from barcode import Code128
 from django.db import models
 from django.urls import reverse
 
-
 class CardCategory(models.Model):
-    CATEGORY_CHOICES = [
-        ('P', 'POOR'), ('NP', 'NOT POOR'),('NC', 'NO CARD')
-    ] 
-    category = models.CharField(max_length=2, choices= CATEGORY_CHOICES, primary_key=True, unique=True)
+    category = models.CharField(default='New discount', max_length= 25, primary_key=True, unique=True)
+    doctor_fee_discount = models.IntegerField(default=0)
+    test_fee_discount = models.IntegerField(default=0)
+    medicine_fee_discount = models.IntegerField(default=0)
+    
 
     class Meta:
         verbose_name_plural = "Card Categories"
@@ -18,14 +17,14 @@ class CardCategory(models.Model):
 
 class CardPerson(models.Model):
     GENDER_CHOICES = [
-        ('M', 'MALE'),('F', 'FEMALE')
+        ('Male', 'Male'),('Female', 'Female')
         ]
 
     card_id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=150)
     age = models.IntegerField(blank=True, null=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     contact_no = models.CharField(max_length=15, blank=True, null=True)
     person_photo = models.ImageField(upload_to='persons/', default = "persons/default.png")
     barcode_photo = models.ImageField(upload_to='barcodes/',default = "default.jpg")
@@ -47,14 +46,15 @@ class CardPerson(models.Model):
 
 class Guardian(models.Model):
     RELATIONSHIP_CHOICES = [
-        ('FAT', 'FATHER'),('MOT', 'MOTHER'),
-        ('HUS', 'HUSBAND'),('WIF', 'WIFE'),
-        ('BRO', 'BROTHER'),('SON', 'SON'),
-        ('DAU', 'DAUGHTER'),('UNC', 'UNCLE'),
-        ('AUN', 'AUNT'),
+        ('Father','Father'), ('Mother','Mother'),
+        ('Husband','Husband'), ('Wife','Wife'),
+        ('Brother','Brother'), ('Sister', 'Sister'),
+        ('Son', 'Son'), ('Daughter', 'Daughter'),
+        ('Uncle', 'Uncle'), ('Aunt', 'Aunt')
     ]
+
     card_holder = models.OneToOneField(CardPerson, on_delete=models.CASCADE, related_name= 'guardian', primary_key=True)
-    relationship_with_guardian = models.CharField(max_length=3, choices=RELATIONSHIP_CHOICES)
+    relationship_with_guardian = models.CharField(max_length=8, choices=RELATIONSHIP_CHOICES)
     guardian_name = models.CharField(max_length= 100)
 
     def __str__(self):

@@ -10,15 +10,6 @@ from .models import CardPerson, Guardian, FamilyMember
 from .forms import CardPersonForm, GuardianForm, FamilyMemberForm
 from .utils import BarcodeGenerator, CardPDFGenerator
 
-
-RELATIONSHIPS = {
-        'FAT':'Father', 'MOT':'Mother',
-        'HUS':'Husband', 'WIF':'Wife',
-        'BRO':'Brother', 'SON':'Son',
-        'DAU':'Daughter', 'UNC':'Uncle',
-        'AUN':'Aunt'
-    }
-
 def card_person_entry(request):
     if request.method == 'POST':
         id = request.POST['card_id']
@@ -71,7 +62,7 @@ def card_person_entry(request):
 
                 if len(request.POST['guardian-relationship']) > 0:
                     cardpdf_obj.add_guardian(guardian_name= request.POST['guardian-name'], 
-                                        guardian_type= RELATIONSHIPS[request.POST['guardian-relationship']])
+                                        guardian_type= request.POST['guardian-relationship'])
                 else:
                     cardpdf_obj.add_guardian()
             
@@ -173,7 +164,7 @@ def edit_card(request, card_id):
 
         if len(request.POST['relationship_with_guardian']) > 0:
             cardpdf_obj.add_guardian(guardian_name= request.POST['guardian_name'], 
-                                    guardian_type= RELATIONSHIPS[request.POST['relationship_with_guardian']])
+                                    guardian_type= request.POST['relationship_with_guardian'])
         else:
             cardpdf_obj.add_guardian()
             
@@ -217,4 +208,4 @@ def refresh_card(request):
         os.remove(static_cards_dir / file)
 
     messages.success(request, 'Card System Refreshed Successfully!')
-    return redirect('index')
+    return redirect('others:index')

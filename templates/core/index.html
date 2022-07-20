@@ -3,10 +3,29 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+<br>
+<div class="d-flex justify-content-center mb-3">
+    {% if request.user.username == 'admin' %}
+      <label class="div-switch">
+        <div class="toggle">
+            <input class="toggle-state" type="checkbox"
+                  id="img_upload_check" name="check"
+                  {% if image_upload.value == 1 %}checked{% endif %}
+            />
+            <div class="toggle-inner">
+            <div class="indicator"></div>
+            </div>
+            <div class="active-bg"></div>
+        </div>
+        <div class="label-text text-white"><b>Image Upload (On/Off)</b><span id="turned-on-off"></span></div>
+      </label>
+    {% endif %}
+</div>
+<br>
 <div class="d-flex justify-content-center">
-    <a href="{% url 'cards:refresh_card' %}"
-        <button id="refresh-btn" class="btn btn-primary btn-circle">
-            <span id="refresh-span"></span> <b>Refresh Card</b>
+    <a href="{% url 'cards:refresh_card' %}">
+        <button id="refresh-btn" class="btn-refresh">
+            <span id="refresh-span"></span> <b>Refresh Card</b> <span class="badge bg-danger">{{ln}}</span>
         </button>
     </a>
 </div>
@@ -15,6 +34,23 @@
 <script>
     $('#refresh-btn').on('click', function(){
         $('#refresh-span').addClass("spinner-border spinner-border-sm");
-    })
+    });
+
+    $('#img_upload_check').change(function(){
+        let data = $(this).prop('checked');
+        let dest_url = 'img-upload-check/' + data;
+
+        console.log(data);
+        console.log(dest_url);
+        $.ajax({
+        url: dest_url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+            $('#turned-on-off').html(`<strong> (${ res.data}) </strong>`);
+            console.log(res);
+        }
+    });
+    });
 </script>
 {% endblock js-script %}

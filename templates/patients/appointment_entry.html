@@ -1,0 +1,153 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Appointment Entry{% endblock title %}
+
+{% block content %}
+  <h1 class="text-white text-center">
+      <strong>#Appointment_Entry</strong>
+  </h1>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary">
+      Serial No. <span class="badge bg-secondary">{{serial_no}}</span>
+    </button>
+  </div>
+  <div class="row">
+    <!-- FORM GRID  -->
+    <form action="{% url 'patients:appointment_entry' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="col-sm-12 col-md-8 col-lg-8 mb-3">
+        <h3 class="text-white"><strong>#Fill_Up_The_Form:</strong></h3>
+
+        <div class="row">
+          <!-- CARD ID -->
+          <div class="col-md-4 col-lg-4 col-sm-12 mt-3 mb-3">
+            <label for="card" class="form-label text-white">Card ID:</label>
+            <input type="text" class="form-control" name="card" id="card" value="" placeholder="No Card Selected">
+          </div>
+          <!-- CARD ID END -->
+
+          <!-- CARD DESCRIPTION -->
+          <div class="col-md-4 col-lg-4 col-sm-12 mt-3 mb-3">
+            <div class="p-3"></div>
+            <div class="form-text text-white">(No Card Selected)</div>
+          </div>
+          <!-- CARD DESCRIPTION END -->
+         </div>
+
+          <!-- NAME, ADDRESS DIV-ROW -->
+          <div class="row">
+            <!-- NAME -->
+            <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+              <label for="patient_name" class="form-label text-white">Name:</label>
+              <input type="text" class="form-control" name="patient_name" id="patient_name" placeholder="Name" required>
+            </div>
+            <!-- NAME END -->
+
+            <!-- ADDRESS -->
+            <div class="col mb-3">
+              <label for="location" class="form-label text-white">Address(required):</label>
+              <input type="text" class="form-control" name="location" id="location" placeholder="Current Address" required>
+            </div>
+            <!-- ADDRESS END -->
+          </div>
+          <!-- NAME, ADDRESS DIV-ROW END -->
+
+          <!-- GENDER,AGE,CONTACT DIV-ROW -->
+          <div class="row">
+            <!-- GENDER -->
+            <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+              <label for="gender" class="form-label text-white">Gender:</label>
+              <select class="form-select text-secondary" name="gender" id="gender" required>
+                <option value="" selected>Gender</option>
+                <option value="Male">Male</option><option value="Female">Female</option>
+              </select>  
+            </div>
+            <!-- GENDER END -->
+            
+            <!-- AGE -->
+            <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+              <label for="age" class="form-label text-white">Age:</label>
+              <input type="number" class="form-control" name="age" id="age" placeholder="Age">
+            </div>
+            <!-- AGE END -->
+
+            <!-- BLOOD GROUP START -->
+            <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+              <label for="blood_group" class="form-label text-white">Blood Group:</label>
+              <select class="form-select text-secondary" name="blood_group" id="blood_group" required>
+                <option value="" selected>Blood Group</option>
+                <option value="O+">O(+ve)</option><option value="O-">O(-ve)</option>
+                <option value="A+">A(+ve)</option><option value="A-">A(-ve)</option>
+                <option value="B+">B(+ve)</option><option value="B-">B(-ve)</option>
+                <option value="AB+">AB(+ve)</option><option value="AB-">AB(-ve)</option>
+              </select>
+            </div>
+            <!-- BLODD GROUP END -->
+
+            <!-- CONTACT NO -->
+            <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+              <label for="contact_no" class="form-label text-white">Contact No:</label>
+              <input type="text" class="form-control" name="contact_no" id="contact_no" placeholder="Contact No." value="">
+            </div>
+            <!-- CONTACT NO END -->
+          </div>
+          <!-- GENDER,AGE,CONTACT DIV-ROW END -->
+
+          <!-- APPINTED DOCTOR START -->
+          <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-12">
+              <label for="test-fee" class="form-label text-white">Appointed Doctor:</label>
+              <input type="text" class="form-control" name="doctor" id="doctor" placeholder="Search Doctor name" value="">
+            </div>
+          </div>
+          <!-- APPINTED DOCTOR END -->
+
+          <!-- DOCTOR FEE SECTION DIV-ROW START-->
+          <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
+              <label for="doctor-fee" class="form-label text-white">Doctor Fee:</label>
+              <input type="text" class="form-control" name="doctor-fee" id="doctor-fee" placeholder="eg. 100/200 tk">
+            </div>
+          </div>
+          <!-- DOCTOR FEE SECTION DIV-ROW END-->
+
+
+          <!-- IS-DOCTOR-FEE-PAID SECTION DIV-ROW START-->
+          <div class="row">
+            <div class="form-check col-md-4 col-lg-4 col-sm-4 m-3">
+              <input class="form-check-input" type="checkbox" value="" id="is-doctor-fee-paid">
+              <label class="form-check-label text-white" for="is-doctor-fee-paid">Fee Paid</label>
+            </div>
+            <div class="form-check col-md-1 col-lg-1 col-sm-1 m-4"></div>
+          </div>
+          <!-- IS-DOCTOR-FEE-PAID SECTION DIV-ROW END-->
+
+          <button type="submit" id="save-print-btn" class="btn btn-secondary">
+            <span id="save-span"></span> Print Prescription
+          </button>
+    </div>
+  </form>
+</div>
+<!-- FORM GRID END -->
+{% endblock content %}
+
+{% block js-script %}
+<script>
+  // ADD NEW MEMBER INPUT FIELD (ONLY GUI)
+  $('#add-new-member-button').on('click', function(){
+      $('#family-members-label').css('display', 'block');
+
+      $('#family-members').append(
+        `<div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+          <input name=members[] type="text" class="form-control" placeholder="Family Member">
+        </div>`
+      );
+  });
+
+    //SAVE AND CREATE CARD BUTTON
+    $('#save-btn').on('click', function(){
+      $('#save-span').addClass("spinner-border spinner-border-sm");
+  });
+</script>
+{% endblock js-script %}

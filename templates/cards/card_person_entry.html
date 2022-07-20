@@ -7,6 +7,21 @@
   <h1 class="text-white text-center">
       <strong>#Card_Entry</strong>
   </h1>
+  <div class="d-flex justify-content-end">
+  <label class="div-switch">
+    <div class="toggle">
+      <input class="toggle-state" type="checkbox" 
+        {% if image_upload.value == 1 %}checked{% endif %}
+        disabled />
+
+      <div class="toggle-inner">
+         <div class="indicator"></div>
+      </div>
+      <div class="active-bg"></div>
+    </div>
+    <div class="label-text text-white">Image Upload (On/Off)</div>
+</label>
+</div>
   <div class="row">
     <!-- FORM GRID  -->
     <form action="{% url 'cards:card_person_entry' %}" method="POST" enctype="multipart/form-data">
@@ -28,8 +43,9 @@
             <label for="category" class="form-label text-white">Card Category:</label>
             <select class="form-select text-secondary" name="category" id="category" >
                 <option value="" selected>Select Card Category </option>
-                <option value="P">Poor</option>
-                <option value="NP">Not Poor</option>
+                {% for category in card_categories %}
+                  <option value="{{category.category}}">{{category.category}}</option>
+                {% endfor %}
             </select>  
           </div>
           <!-- CARD CATEGORY END -->
@@ -39,7 +55,7 @@
             <label for="gender" class="form-label text-white">Gender:</label>
             <select class="form-select text-secondary" name="gender" id="gender" required>
                 <option value="" selected>Gender:</option>
-                <option value="M">Male</option><option value="F">Female</option>
+                <option value="Male">Male</option><option value="Female">Female</option>
             </select>  
           </div>
           <!-- GENDER END -->
@@ -70,12 +86,12 @@
             <div class="col-md-6 col-lg-6 col-sm-12">
               <label for="guardian-relationship" class="form-label text-white">Guardian Relationship:</label>
               <select id="guardian-relationship" class="form-select text-secondary" name="guardian-relationship">
-                <option value="" selected>Select Relation</option><option value="FAT">Father</option>
-                <option value="MOT">Mother</option><option value="HUS">Husband</option>
-                <option value="WIF">Wife</option><option value="BRO">Brother</option>
-                <option value="SIS">Sister</option><option value="SON">Son</option>
-                <option value="DAU">Daughter</option><option value="UNC">Uncle</option>
-                <option value="AUNT">Aunt</option>
+                <option value="" selected>Select Relation</option>
+                <option value="Father">Father</option><option value="Mother">Mother</option>
+                <option value="Husband">Husband</option><option value="Wife">Wife</option>
+                <option value="Brother">Brother</option><option value="Sister">Sister</option>
+                <option value="Son">Son</option><option value="Daughter">Daughter</option>
+                <option value="Uncle">Uncle</option><option value="Aunt">Aunt</option>
               </select>                      
             </div>
             <div class="form-text">*Fill up only if you have guardian in your family.</div>
@@ -98,9 +114,12 @@
             <!-- CONTACT NO END -->
 
             <!-- PERSON PHOTO -->
-            <div class="col-md-4 col-lg-4 col-sm-12 mb-3">
+            <div class="col-md-4 col-lg-4
+              col-sm-12 mb-3 {% if image_upload.value == 0 %} d-none {% endif %}">
+
               <label class="form-label text-white" for="person_photo">Photo:</label>
-              <input type="file" accept="image/*" class="form-control" name="person_photo" id="person_photo" />
+              <input type="file" accept="image/*" class="form-control" name="person_photo" id="person_photo"/>
+
             </div>
             <!-- PERSON PHOTO END -->
 
