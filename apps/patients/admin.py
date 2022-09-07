@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Appointment, SerialTracker
+from .models import Appointment, SerialTracker, PrescriptionPDF
 
 # Register your models here.
 class AppointmentAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(SerialTracker)
+admin.site.register(PrescriptionPDF)

@@ -60,7 +60,7 @@
               <label for="gender" class="form-label text-white">Gender:</label>
               <select class="form-select text-secondary" name="gender" id="gender" required>
                 <option value="" selected>Gender</option>
-                <option value="Male">Male</option><option value="Female">Female</option>
+                <option value="M">Male</option><option value="F">Female</option>
               </select>  
             </div>
             <!-- GENDER END -->
@@ -97,31 +97,51 @@
           <!-- APPINTED DOCTOR START -->
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12">
-              <label for="test-fee" class="form-label text-white">Appointed Doctor:</label>
-              <input type="text" class="form-control" name="doctor" id="doctor" placeholder="Search Doctor name" value="">
+              <label for="doctor" class="form-label text-white">Doctor:</label>
+              <select class="form-select text-secondary" name="doctor" id="docotr" >
+                  <option value="" selected>Select Doctor</option>
+                  {% for doctor in doctors %}
+                    <option value="{{doctor.id}}">{{doctor.name}}</option>
+                  {% endfor %}
+              </select>
             </div>
           </div>
           <!-- APPINTED DOCTOR END -->
-
           <!-- DOCTOR FEE SECTION DIV-ROW START-->
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
               <label for="doctor-fee" class="form-label text-white">Doctor Fee:</label>
-              <input type="text" class="form-control" name="doctor-fee" id="doctor-fee" placeholder="eg. 100/200 tk">
+              <input type="number" class="form-control" name="doctor_fee" id="doctor-fee" placeholder="eg. 100/200 tk">
             </div>
           </div>
           <!-- DOCTOR FEE SECTION DIV-ROW END-->
 
+          <!-- DOCTOR FEE SECTION DIV-ROW START-->
+          <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
+              <label for="lab-fee" class="form-label text-white">Lab Fee:</label>
+              <input type="number" class="form-control" name="lab_fee" id="lab-fee" placeholder="eg. 100/200 tk">
+            </div>
+          </div>
+          <!-- DOCTOR FEE SECTION DIV-ROW END-->
+
+        <div class="row m-3">
 
           <!-- IS-DOCTOR-FEE-PAID SECTION DIV-ROW START-->
-          <div class="row">
-            <div class="form-check col-md-4 col-lg-4 col-sm-4 m-3">
-              <input class="form-check-input" type="checkbox" value="" id="is-doctor-fee-paid">
-              <label class="form-check-label text-white" for="is-doctor-fee-paid">Fee Paid</label>
+            <div class="form-check col-md-7 col-lg-7 col-sm-7">
+              <input class="form-check-input" name="is_doctor_fee_paid" type="checkbox" value="" id="is-doctor-fee-paid">
+              <label class="form-check-label text-white" for="is-doctor-fee-paid">Doctor Fee Paid</label>
             </div>
-            <div class="form-check col-md-1 col-lg-1 col-sm-1 m-4"></div>
-          </div>
           <!-- IS-DOCTOR-FEE-PAID SECTION DIV-ROW END-->
+
+          <!-- IS-lAB-FEE-PAID SECTION DIV-ROW START-->
+            <div class="form-check col-md-7 col-lg-7 col-sm-7">
+              <input class="form-check-input" name="is_lab_fee_paid" type="checkbox" value="" id="is-lab-fee-paid">
+              <label class="form-check-label text-white" for="is-lab-fee-paid">Lab Fee Paid</label>
+            </div>
+          <!-- IS-lAB-FEE-PAID SECTION DIV-ROW END-->
+
+        </div>
 
           <button type="submit" id="save-print-btn" class="btn btn-secondary">
             <span id="save-span"></span> Print Prescription
@@ -146,7 +166,7 @@
   });
 
     //SAVE AND CREATE CARD BUTTON
-    $('#save-btn').on('click', function(){
+    $('#save-print-btn').on('click', function(){
       $('#save-span').addClass("spinner-border spinner-border-sm");
   });
 </script>

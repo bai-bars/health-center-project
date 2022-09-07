@@ -1,17 +1,24 @@
-from datetime import date
+import os
+import datetime
 
 from django.db import models
+from django.core.files import File
 from django.conf import settings
 
-from .utils import generate_appointments_id
+from .utils import PrescriptionPDFGenerator
 from apps.cards.models import CardPerson
 from apps.doctors.models import Doctor
+
+
+class PrescriptionPDF(models.Model):
+    pdf_file = models.FileField(upload_to = "prescriptions/" , default = "default.jpg")
 
 class Appointment(models.Model):
     GENDER_CHOICES = [
         ('F', 'Female'), 
         ('M', 'Male') 
     ]
+
     id = models.BigIntegerField(primary_key=True)
     serial_no = models.IntegerField()
     card = models.ForeignKey(CardPerson, null=True, blank=True,
@@ -28,37 +35,82 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    doctor_fee = models.PositiveIntegerField(default=0)
-    lab_fee = models.PositiveIntegerField(default=0)
+    doctor_fee = models.PositiveIntegerField(null=True, blank=True)
+    lab_fee = models.PositiveIntegerField(blank=True, null=True)
 
     is_doctor_fee_paid = models.BooleanField(default=False)
     is_lab_fee_paid = models.BooleanField(default=False)
 
+
+    def calc_serial_no(self):
+        serial_obj = SerialTracker.objects.get(pk=1)
+        serial_no = serial_obj.serial_no
+        today_date = datetime.date.today()
+
+        if serial_obj.cur_date == today_date:
+            serial_no = serial_no + 1
+        else:
+            serial_no = 1
+            serial_obj.cur_date = today_date
     
-    # def save(self, *args, **kwargs):
-    #     serial_obj = SerialTracker.objects.get(pk=1)
-    #     serial_no = serial_obj.serial_no
-    #     today_date = date.today()
+    
+        serial_obj.serial_no = serial_no
+        serial_obj.save()
 
-    #     if serial_obj.cur_date == today_date:
-    #         serial_no = serial_no + 1
-    #     else:
-    #         serial_no = 1
-    #         serial_obj.cur_date = today_date
+        return serial_no
 
-    #     # APPOINTMENT OBJECT ID
-    #     id = generate_appointments_id(today_date, serial_no)
+
+    def add_pad(self, serial_no):
+        serial = str(serial_no)
+        ln = len(serial)
+    
+        if ln == 1:
+            serial = '00' + serial
+        elif ln == 2:
+            serial= '0' + serial
+
+        return serial
+
+
+    def generate_appointments_id(self, serial_no):
+        today_date = datetime.date.today()
+        date = ('').join(str(today_date).split('-'))
+    
+        serial = self.add_pad(serial_no)
+
+        return int(date+serial)
+
+    def save(self, *args, **kwargs):
         
-    #     if not Appointment.objects.filter(pk = id).exists():
-    #         # SERIAL OBJECT
-    #         serial_obj.serial_no = serial_no
-    #         serial_obj.save()
+        if self.serial_no is None:
+            self.serial_no = self.calc_serial_no()
+            self.id = self.generate_appointments_id(self.serial_no)
 
-    #         # APPOINTMENT OBJECT
-    #         self.id = id
-    #         self.serial_no = serial_no
+            # CREATE PRESCRIPTION PDF
+            pdf_obj = PrescriptionPDFGenerator(self.id)
+            pdf_obj.add_name(self.patient_name if self.patient_name is not None or self.patient_name is not '' else '')
+            pdf_obj.add_age(self.age if self.age is not None or self.age == '' else '')
+            pdf_obj.add_gender('Male' if self.gender == 'M' else 'F')
+            pdf_obj.add_card_id(self.card if self.card is not None else '')
+            pdf_obj.add_patient_id()
+            pdf_obj.add_serial_no(self.serial_no)
+            pdf_obj.add_date(datetime.datetime.now())
+            pdf_obj.create_pdf()
 
-    #     super(Appointment, self).save(*args, **kwargs)
+            pdf_file = open(pdf_obj.output_filepath , "rb")
+
+            saved_pdf = PrescriptionPDF.objects.get(id=1)
+
+            media_pres_dir = settings.MEDIA_ROOT / 'prescriptions'
+            media_pres_list = os.listdir(media_pres_dir)
+
+            for file in media_pres_list:
+                os.remove(media_pres_dir / file)
+
+            saved_pdf.pdf_file.save(f"prescription.pdf", File(pdf_file))
+            pdf_file.close()
+        
+        super(Appointment, self).save(*args, **kwargs)
 
 
 

@@ -6,3 +6,4 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = '__all__'
+        exclude = ('id', 'serial_no')

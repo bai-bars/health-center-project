@@ -1,50 +1,41 @@
 from datetime import date
 
+from django.conf import settings
 from django.shortcuts import redirect, render
+from django.views import View
+from django.http import JsonResponse, HttpResponse
 
-from .models import Appointment, SerialTracker
+from .models import Appointment, SerialTracker, PrescriptionPDF
 from .forms import AppointmentForm
-from .utils import generate_appointments_id
+from apps.doctors.models import Doctor
+# from .utils import generate_appointments_id, get_serial_no
 
 
-def appointment_entry_get(request):
-    serial_obj = SerialTracker.objects.get(pk=1)
-    serial_no = serial_obj.serial_no
-    today_date = date.today()
+class AppointmentEntryView(View):
+    def get(self, request):
+        serial_obj = SerialTracker.objects.get(pk=1)
+        serial_no = serial_obj.serial_no
+        today_date = date.today()
 
-    if serial_obj.cur_date == today_date:
-        serial_no = serial_no + 1
-    else:
-        serial_no = 1
-
-
-    return render(request, 'patients/appointment_entry.html', context = {'serial_no' : serial_no})
+        if serial_obj.cur_date == today_date:
+            serial_no = serial_no + 1
+        else:
+            serial_no = 1
 
 
-def appointment_entry_post(request):
-    serial_obj = SerialTracker.objects.get(pk=1)
-    serial_no = serial_obj.serial_no
-    today_date = date.today()
+        doctors = Doctor.objects.all()
+        return render(request, 'patients/appointment_entry.html', context = {'serial_no' : serial_no,
+                                                                             'doctors' : doctors })
 
-    if serial_obj.cur_date == today_date:
-        serial_no = serial_no + 1
-    else:
-        serial_no = 1
-        serial_obj.cur_date = today_date
 
-    # APPOINTMENT OBJECT ID
-    appointment_id = generate_appointments_id(today_date, serial_no)
+    def post(self, request):
+        appoint = AppointmentForm(request.POST)
         
-    # SERIAL OBJECT
-    serial_obj.serial_no = serial_no
-    serial_obj.save()
+        if appoint.is_valid():
+            appoint.save()
 
-    # APPOINTMENT 
-    appoint = AppointmentForm(request.POST)
-    appoint.save(commit=False)
+        
+        saved_pdf =  PrescriptionPDF.objects.get(id=1)
 
-    appoint.id = appointment_id
-    appoint.serial_no = serial_no
-    appoint.save()
-
-    redirect('/')
+        
+        return redirect(saved_pdf.pdf_file.url)
