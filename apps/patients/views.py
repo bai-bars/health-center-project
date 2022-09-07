@@ -39,3 +39,18 @@ class AppointmentEntryView(View):
 
         
         return redirect(saved_pdf.pdf_file.url)
+
+
+class AppointmentHistoryView(View):
+    def get(self,request):
+        print('=========================')
+        print(request.GET)
+        print('=========================')
+        query_set = Appointment.objects.all().order_by('-created_at')
+        print(query_set)
+        return render(request, 'patients/appointment_history.html',
+                                context={'appointments' : query_set})
+
+class AppointmentUpdateDelete(View):
+    def get(self,request):
+        pass
