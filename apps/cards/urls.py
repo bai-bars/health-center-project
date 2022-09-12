@@ -11,6 +11,7 @@ urlpatterns = [
     path('<str:card_id>/edit-card/', views.edit_card, name= "edit_card"),
     path('card-person-list/', views.card_person_list, name= "card_person_list"),
     path('search-card-person/', views.search_card, name= "search_card"),
+    path('search-card-json/<query>/', views.search_card_json, name= "search_card_json"),
     path('card-person-stats/', views.card_person_stats, name= "card_person_stats"),
     path('refresh-card/', views.refresh_card, name= "refresh_card"),
 ]

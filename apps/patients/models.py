@@ -35,8 +35,8 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    doctor_fee = models.PositiveIntegerField(null=True, blank=True)
-    lab_fee = models.PositiveIntegerField(blank=True, null=True)
+    doctor_fee = models.PositiveIntegerField(default=0, null=True, blank=True)
+    lab_fee = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     is_doctor_fee_paid = models.BooleanField(default=False)
     is_lab_fee_paid = models.BooleanField(default=False)
@@ -91,7 +91,7 @@ class Appointment(models.Model):
             pdf_obj.add_name(self.patient_name if self.patient_name is not None or self.patient_name is not '' else '')
             pdf_obj.add_age(self.age if self.age is not None or self.age == '' else '')
             pdf_obj.add_gender('Male' if self.gender == 'M' else 'F')
-            pdf_obj.add_card_id(self.card if self.card is not None else '')
+            pdf_obj.add_card_id(self.card.card_id if self.card is not None else '')
             pdf_obj.add_patient_id()
             pdf_obj.add_serial_no(self.serial_no)
             pdf_obj.add_date(datetime.datetime.now())

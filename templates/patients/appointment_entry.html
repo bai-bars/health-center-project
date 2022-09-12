@@ -21,9 +21,10 @@
 
         <div class="row">
           <!-- CARD ID -->
-          <div class="col-md-4 col-lg-4 col-sm-12 mt-3 mb-3">
+          <div class="col-md-6 col-lg-6 col-sm-12 mt-3 mb-3">
             <label for="card" class="form-label text-white">Card ID:</label>
             <input type="text" class="form-control" name="card" id="card" value="" placeholder="No Card Selected">
+            <div class=" rounded"  id="result-box"></div>
           </div>
           <!-- CARD ID END -->
 
@@ -94,7 +95,7 @@
           </div>
           <!-- GENDER,AGE,CONTACT DIV-ROW END -->
 
-          <!-- APPINTED DOCTOR START -->
+          <!-- APPOINTED DOCTOR START -->
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12">
               <label for="doctor" class="form-label text-white">Doctor:</label>
@@ -107,11 +108,12 @@
             </div>
           </div>
           <!-- APPINTED DOCTOR END -->
+
           <!-- DOCTOR FEE SECTION DIV-ROW START-->
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
               <label for="doctor-fee" class="form-label text-white">Doctor Fee:</label>
-              <input type="number" class="form-control" name="doctor_fee" id="doctor-fee" placeholder="eg. 100/200 tk">
+              <input type="number" class="form-control" name="doctor_fee" value=0 id="doctor-fee" placeholder="eg. 100/200 tk">
             </div>
           </div>
           <!-- DOCTOR FEE SECTION DIV-ROW END-->
@@ -120,7 +122,7 @@
           <div class="row">
             <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
               <label for="lab-fee" class="form-label text-white">Lab Fee:</label>
-              <input type="number" class="form-control" name="lab_fee" id="lab-fee" placeholder="eg. 100/200 tk">
+              <input type="number" class="form-control" name="lab_fee" value=0 id="lab-fee" placeholder="eg. 100/200 tk">
             </div>
           </div>
           <!-- DOCTOR FEE SECTION DIV-ROW END-->
@@ -153,21 +155,56 @@
 {% endblock content %}
 
 {% block js-script %}
+
 <script>
-  // ADD NEW MEMBER INPUT FIELD (ONLY GUI)
-  $('#add-new-member-button').on('click', function(){
-      $('#family-members-label').css('display', 'block');
+const cardInput = document.getElementById('card');
+const resultBox = document.getElementById('result-box');
 
-      $('#family-members').append(
-        `<div class="col-md-6 col-lg-6 col-sm-12 mb-3">
-          <input name=members[] type="text" class="form-control" placeholder="Family Member">
-        </div>`
-      );
-  });
+sendCardID = (cardId) => {
+    let myUrl = '/card/search-card-json/'+cardId + '/';
+    console.log(myUrl);
+    $.ajax({
+        url: myUrl ,
 
-    //SAVE AND CREATE CARD BUTTON
-    $('#save-print-btn').on('click', function(){
-      $('#save-span').addClass("spinner-border spinner-border-sm");
-  });
+        success: (res)=>{
+            let arr = res.data;
+            let str = "";
+            for(item of arr ){
+                str+= `<a href="#" class="list-group-item list-group-item-action">
+                        ${item.card_id} <small>(${item.name})</small>
+                    </a>`
+            }
+            document.getElementById('result-box').innerHTML = str;
+
+        },
+
+        error : (err) =>{
+            console.log(err);
+        }
+    });
+}
+
+cardInput.addEventListener('keyup', e=>{
+    if(e.target.value.length > 0 ){
+        if (resultBox.classList.contains('not-visible')){
+            resultBox.classList.remove('not-visible');
+        }
+        sendCardID(e.target.value);
+    }
+    else{
+        resultBox.classList.add('not-visible');
+    }
+    
+})
+
+$("#result-box").on("click" , ".list-group-item" , function(){
+    let cardId = $(this).html();
+
+    $('#card').val(cardId.trim().split(" ")[0]);
+    console.log(cardId.trim().split(" ")[0]);
+    $("#result-box").addClass('not-visible');
+
+});
+
 </script>
 {% endblock js-script %}

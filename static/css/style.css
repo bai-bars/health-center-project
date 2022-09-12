@@ -157,3 +157,23 @@ li{
 .toggle-state:checked ~ .toggle-inner .indicator {
    transform: translate3d(25%, 0, 0);
 }
+
+/* Patient Appointment */
+.results-{
+  box-shadow : 0 8px 8px rgba(255,255,255,0.5);
+  transition: 0.5s;
+  border-radius:7 px;
+  padding: 15px 15px;
+}
+
+.not-visible{
+  display : none;
+}
+
+.search:focus{
+  background-color: rgb(21,35,60);
+}
+
+.decoration-none{
+  text-decoration: none;
+}

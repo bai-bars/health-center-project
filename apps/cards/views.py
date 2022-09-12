@@ -2,6 +2,9 @@ import os
 
 from django.conf import settings
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
+from django.db.models import Q
+
 from django.contrib import messages
 from django.core import files
 from django.core.files import File
@@ -100,6 +103,10 @@ def search_card(request):
     query = request.GET.get('q')
     searched_cards = CardPerson.objects.filter(card_id = query)
     return render(request, 'cards/search_card.html', context = {'searched_cards': searched_cards})
+
+def search_card_json(request, query):
+    searched_cards = CardPerson.objects.filter(Q(card_id__icontains = query) | Q(name__icontains = query)).values()
+    return JsonResponse({'data': list(searched_cards)}, safe=False)
 
 
 def delete_card(request, card_id):
