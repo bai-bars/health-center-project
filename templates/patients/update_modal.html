@@ -1,0 +1,152 @@
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Update Info</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- MODAL BODY -->
+  
+        <div class="modal-body">
+          <div class="row">
+            <!-- FORM GRID  -->
+            <form action="{% url 'patients:appointment_update' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="col-sm-12 col-md-8 col-lg-8 mb-3">
+                <div class="row">
+  
+                  <!-- PATIENT ID -->
+                  <div class="col-md-6 col-lg-6 col-sm-12 mt-3 mb-3">
+                    <label for="patient-id" class="form-label">Patient ID:</label>
+                    <input type="text" class="form-control" name="patient_id" id="patient_id" value="" readonly>
+                  </div>
+                  <!-- PATIENT ID END -->
+  
+                  <!-- SERIAL NUMBER -->
+                  <div class="col-md-6 col-lg-6 col-sm-12 mt-3 mb-3">
+                    <label for="serial-no" class="form-label">Serial No:</label>
+                    <input type="text" class="form-control" name="serial_no" id="serial_no" value="" readonly>
+                  </div>
+                  <!-- SERIAL NUMBER END -->
+  
+                  <!-- CARD ID -->
+                  <div class="col-md-6 col-lg-6 col-sm-12 mt-3 mb-3">
+                    <label for="card" class="form-label">Card ID:</label>
+                    <input type="text" class="form-control" name="card" id="card" value="" placeholder="No Card Selected">
+                    <div class=" rounded"  id="result-box"></div>
+                  </div>
+                  <!-- CARD ID END -->
+                 </div>
+        
+                  <!-- NAME, ADDRESS DIV-ROW -->
+                  <div class="row">
+                    <!-- NAME -->
+                    <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+                      <label for="patient_name" class="form-label">Name:</label>
+                      <input type="text" class="form-control" name="patient_name" id="patient_name" placeholder="Name" required>
+                    </div>
+                    <!-- NAME END -->
+        
+                  
+                  </div>
+                  <!-- NAME, ADDRESS DIV-ROW END -->
+        
+                  <!-- GENDER,AGE,CONTACT DIV-ROW -->
+                  <div class="row">
+                    <!-- GENDER -->
+                    <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+                      <label for="gender" class="form-label">Gender:</label>
+                      <select class="form-select text-secondary" name="gender" id="gender" required>
+                        <option value="" selected>Gender</option>
+                        <option value="M">Male</option><option value="F">Female</option>
+                      </select>  
+                    </div>
+                    <!-- GENDER END -->
+                    
+                    <!-- AGE -->
+                    <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+                      <label for="age" class="form-label">Age:</label>
+                      <input type="number" class="form-control" name="age" id="age" placeholder="Age">
+                    </div>
+                    <!-- AGE END -->
+  
+                    <!-- ADDRESS -->
+                     <div class="col mb-3">
+                      <label for="location" class="form-label">Address(required):</label>
+                      <input type="text" class="form-control" name="location" id="location" placeholder="Current Address" required>
+                    </div>
+                    <!-- ADDRESS END -->
+        
+                    <!-- CONTACT NO -->
+                    <div class="col-md-3 col-lg-3 col-sm-6 mb-3">
+                      <label for="contact_no" class="form-label">Contact No:</label>
+                      <input type="text" class="form-control" name="contact_no" id="contact_no" placeholder="Contact No." value="">
+                    </div>
+                    <!-- CONTACT NO END -->
+                  </div>
+                  <!-- GENDER,AGE,CONTACT DIV-ROW END -->
+        
+                  <!-- APPOINTED DOCTOR START -->
+                  <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                      <label for="doctor" class="form-label">Doctor:</label>
+                      <select class="form-select text-secondary" name="doctor" id="doctor" >
+                          <option value="" selected>Select Doctor</option>
+                          {% for doctor in doctors %}
+                            <option value="{{doctor.id}}">{{doctor.name}}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <!-- APPINTED DOCTOR END -->
+        
+                  <!-- DOCTOR FEE SECTION DIV-ROW START-->
+                  <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
+                      <label for="doctor-fee" class="form-label">Doctor Fee:</label>
+                      <input type="number" class="form-control" name="doctor_fee" value=0 id="doctor_fee" placeholder="eg. 100/200 tk">
+                    </div>
+                  </div>
+                  <!-- DOCTOR FEE SECTION DIV-ROW END-->
+        
+                  <!-- DOCTOR FEE SECTION DIV-ROW START-->
+                  <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-12 mt-3">
+                      <label for="lab-fee" class="form-label">Lab Fee:</label>
+                      <input type="number" class="form-control" name="lab_fee" value=0 id="lab_fee" placeholder="eg. 100/200 tk">
+                    </div>
+                  </div>
+                  <!-- DOCTOR FEE SECTION DIV-ROW END-->
+        
+                <div class="row m-3">
+                  <!-- IS-DOCTOR-FEE-PAID SECTION DIV-ROW START-->
+                    <div class="form-check col-md-7 col-lg-7 col-sm-7">
+                      <input class="form-check-input" name="is_doctor_fee_paid" type="checkbox" value="" id="is-doctor-fee-paid">
+                      <label class="form-check-label" for="is-doctor-fee-paid">Doctor Fee Paid</label>
+                    </div>
+                  <!-- IS-DOCTOR-FEE-PAID SECTION DIV-ROW END-->
+        
+                  <!-- IS-lAB-FEE-PAID SECTION DIV-ROW START-->
+                    <div class="form-check col-md-7 col-lg-7 col-sm-7">
+                      <input class="form-check-input" name="is_lab_fee_paid" type="checkbox" value="" id="is-lab-fee-paid">
+                      <label class="form-check-label" for="is-lab-fee-paid">Lab Fee Paid</label>
+                    </div>
+                  <!-- IS-lAB-FEE-PAID SECTION DIV-ROW END-->
+        
+                </div>
+        
+                <button type="submit" id="save-update--btn" class="btn btn-secondary">
+                  <span id="save-span"></span> Save Changes
+                </button>
+            </div>
+          </form>
+        </div>
+        </div>
+        <!-- MODAL BODY END -->
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>  

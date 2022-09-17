@@ -53,6 +53,19 @@ class AppointmentHistoryView(View):
                                          'doctors' : doctors})
 
 
-class AppointmentUpdateDelete(View):
-    def get(self,request):
+class AppointmentUpdateView(View):
+    def post(self,request):
+        patient_id = request.POST['patient_id']
+        appoint = Appointment.objects.get(id = patient_id)
+
+        appoint_form = AppointmentForm(request.POST, instance = appoint)
+
+        if appoint_form.is_valid():
+            appoint_form.save()
+
+        return redirect('patients:appointment_history')
+
+
+class AppointmentDeleteView(View):
+    def delete(self,request):
         pass
