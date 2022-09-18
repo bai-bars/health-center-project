@@ -8,7 +8,12 @@
     <strong>#Appointment_History</strong>
 </h1>
 <br><br>
-<table class="table table-dark table-hover text-white mb-3">
+<div class="col-md-11">
+  <p class="text-white">Filter</p>  
+  <input class="form-control" id="myInput" type="text" placeholder="Search..." autocomplete="off">
+</div>
+<br>
+<table id="myTable" class="table table-dark table-hover text-white mb-3">
     <thead>
       <tr>
         <th scope="col">Patient ID</th> <th scope="col">Serial</th>
@@ -34,15 +39,19 @@
             <button type="button" class="btn-update btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal">
               Update
             </button>
-            <button class="btn btn-sm btn-danger">Delete</button>
+
+            <form action="{% url 'patients:appointment_delete' %}" method="POST">
+              {% csrf_token %}
+              <input name="patient_id" value="{{appointment.id}}" hidden>
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
           </td>
 
           <td class="invisible">{{appointment.doctor_fee}}</td>
           <td class="invisible">{{appointment.lab_fee}}</td>
           <td class="invisible">{{appointment.doctor.id}}</td>
       </tr>
-    {% endfor %}
-
+    {% endfor %} 
     </tbody>
   </table>
 
@@ -83,6 +92,7 @@
       });
   }
 
+
   cardInput.addEventListener('keyup', e=>{
       if(e.target.value.length > 0 ){
           if (resultBox.classList.contains('not-visible')){
@@ -94,6 +104,7 @@
           resultBox.classList.add('not-visible');
       }
   });
+
 
   $("#result-box").on("click" , ".list-group-item" , function(){
       let cardId = $(this).html();
@@ -130,6 +141,20 @@
     $(`#doctor option[value=${td_array[13]}]`).attr('selected','selected');
   });
 
-// ========================== UPDATE BUTTON CLICK END =====================
+// <========================== UPDATE BUTTON CLICK END ===========>
+
+
+// <========================== FILTER ============================>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+// <======================== FILTER END ==========================>
+
 </script>
 {% endblock js-script %}

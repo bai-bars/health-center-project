@@ -2,6 +2,7 @@ from datetime import date
 
 from django.conf import settings
 from django.shortcuts import redirect, render
+from django.contrib import messages
 from django.views import View
 from django.http import JsonResponse, HttpResponse
 
@@ -67,5 +68,11 @@ class AppointmentUpdateView(View):
 
 
 class AppointmentDeleteView(View):
-    def delete(self,request):
-        pass
+    def post(self,request):
+        try:
+            Appointment.objects.get(id = request.POST['patient_id']).delete()
+            messages.success(request, 'Successfully Deleted!')
+        except:
+            pass
+
+        return redirect('patients:appointment_history')

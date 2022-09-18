@@ -9,6 +9,7 @@ urlpatterns = [
     path('patient/', include('apps.patients.urls' , namespace = 'patients')),
     path('doctor/', include('apps.doctors.urls' , namespace = 'doctor')),
     path('card/', include('apps.cards.urls' , namespace = 'cards')),
+    path('pharmacy/', include('apps.pharmacy.urls' , namespace = 'pharmacy')),
 ]
 
 if settings.DEBUG:

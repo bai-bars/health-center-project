@@ -13,6 +13,7 @@ from .models import CardPerson, Guardian, FamilyMember
 from .forms import CardPersonForm, GuardianForm, FamilyMemberForm
 from .utils import BarcodeGenerator, CardPDFGenerator
 
+
 def card_person_entry(request):
     if request.method == 'POST':
         id = request.POST['card_id']
@@ -21,7 +22,7 @@ def card_person_entry(request):
 
         try:
             for err in card_person_form.errors:
-                    messages.error(request, f"Sorry, Something went wrong. Probably with {err}!")           
+                    messages.error(request, f"Sorry, Something went wrong. Probably with {err}!")
 
             if card_person_form.is_valid():
                 card = card_person_form.save(commit=False)
@@ -85,6 +86,7 @@ def card_person_entry(request):
     return render(request, 'cards/card_person_entry.html')
 
 
+
 def card_person_details(request, card_id):
     card_person = CardPerson.objects.get(pk = card_id)
     guardian = Guardian.objects.filter(card_holder = card_person).first()
@@ -103,6 +105,8 @@ def search_card(request):
     query = request.GET.get('q')
     searched_cards = CardPerson.objects.filter(card_id = query)
     return render(request, 'cards/search_card.html', context = {'searched_cards': searched_cards})
+
+
 
 def search_card_json(request, query):
     searched_cards = CardPerson.objects.filter(Q(card_id__icontains = query) | Q(name__icontains = query)).values()
@@ -189,6 +193,7 @@ def edit_card(request, card_id):
         messages.success(request, 'Updated Succesfully!')
 
     return redirect('cards:card_person_details', card_id = card_id)
+
 
 
 def card_person_stats(request):
